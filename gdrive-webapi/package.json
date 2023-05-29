@@ -1,0 +1,16 @@
+{
+  "name": "@ananeri/gdrive-webapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "nodemon": "2.0"
+  }
+}
