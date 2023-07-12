@@ -1,13 +1,9 @@
-/*
- * For a detailed explanation regarding each configuration property, visit:
- * https://jestjs.io/docs/configuration
- */
 
 export default {
 
   clearMocks: true,
   restoreMocks: true,
-  collectCoverage: true,
+ // collectCoverage: true,
   coverageDirectory: "coverage",
   coverageProvider: "v8",
   coverageReporters: [
@@ -15,7 +11,7 @@ export default {
     "lcov"
   ],
   testEnviroment: "node",
-  coverageThreshould: {
+  coverageThreshold: {
     global: {
       branches: 100,
       functions: 100,
