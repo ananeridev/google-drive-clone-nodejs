@@ -9,7 +9,6 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules npx jest --watch --runInBand",
     "test:cov": "NODE_OPTIONS=--experimental-vm-modules npx jest --no-cache --runInBand --coverage"
-
   },
   "keywords": [],
   "author": "",
@@ -18,6 +17,7 @@
     "jest": "^27.5.1"
   },
   "dependencies": {
+    "busboy": "^0.3.1",
     "pino": "6.8",
     "pino-pretty": "5.1",
     "socket.io": "4.1"
