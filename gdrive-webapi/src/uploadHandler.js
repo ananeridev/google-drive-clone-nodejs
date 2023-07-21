@@ -4,14 +4,42 @@ import { pipeline } from 'stream/promises'
 import { logger } from './logger'
 
 export default class UploadHandler {
-    constructor({io, socketId, downloadsFolder}) {
+    constructor({io, socketId, downloadsFolder, messageTimeDelay = 200}) {
         this.io = io
         this.socketId = socketId
         this.downloadsFolder = downloadsFolder
+        this.ON_UPLOAD_EVENT = 'file-upload'
+        this.messageTimeDelay = messageTimeDelay
     }
 
-    handleFileBytes() {
-        
+    canExecute(lastExecution) {
+    //     return (Date.now() - lastExecution) >= 300
+    // }
+
+    }
+
+
+    handleFileBytes(filename) {
+        this.lasMessageSent = Date.now()
+        let processedAlready = 0
+
+        async function* handleData(source) { 
+            for await(const chunk of source) {
+
+                // yeild is a generator function that makes the function return a generator asyncrounous function
+                yield chunk
+
+                processedAlready += chunk.length
+                if(!this.canExecute(this.lasMessageSent)) { 
+                    continue;
+                }
+
+                this.io.to(this.socketId).emit(this.ON_UPLOAD_EVENT, { processedAlready, filename })
+                logger.info(`File [${filename}] got ${processedAlready} bytes to ${this.socketId}`)
+            }
+        }
+
+        return handleData.bind(this)
     }
 
     async onFile(fieldname, file, filename) {

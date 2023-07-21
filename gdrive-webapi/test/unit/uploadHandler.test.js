@@ -11,8 +11,6 @@ import { pipeline } from 'stream/promises'
 import { logger } from '../../src/logger.js'
 import UploadHandler from '../../src/uploadHandler.js'
 import TestUtil from '../_util/testUtil.js'
-import Routes from './../../src/routes.js'
-
 
 
 
@@ -88,5 +86,67 @@ describe('#UploadHandler test suite', () => {
 
 
         })
+    })
+
+    describe('#handleFileBytes', () => {
+        // validar quando bytes foram trafegados
+        test('should call emit function and it is a transform stream', async () => {
+            jest.spyOn(ioObj, ioObj.to.name)
+            jest.spyOn(ioObj, ioObj.emit.name)
+
+
+            const handler = new UploadHandler({
+                io: ioObj,
+                socketId: '01'
+            })
+
+            // voltar aqyu
+            jest.spyOn(handler, handler.canExecute.name).mockReturnValueOnce(true)
+
+            const messages = ['hello']
+            const source = TestUtil.generateReadableStream(messages)
+            const onWrite = jest.fn()
+            const target = TestUtil.generateWritableStream(onWrite)
+
+            await pipeline(
+                source,
+                handler.handleFileBytes('filename.txt'),
+                target
+            )
+
+            expect(ioObj.to).toHaveBeenCalledTimes(messages.length)
+            expect(ioObj.emit).toHaveBeenCalledTimes(messages.length)
+
+            // if the handleFileByte was a tranforms stream, my pipeline will continue the process passing the data for the next step an call
+            // my function on target each chunk
+            expect(onWrite).toBeCalledTimes(messages.length)
+            expect(onWrite.mock.calls.join()).toEqual(messages.join())
+
+
+
+        })
+    })
+
+    describe('#canExecute', () => {
+
+        test('should return true when time is later than specified delay', () => {
+            const uploadHandler = new UploadHandler({
+                io: {},
+                socketId: '',
+                messageTimeDelay: timerDelay
+            })
+
+            const tickNow = TestUtil.getTimeFromDate('2021-07-01 00:00:03')
+            const tickThreeSecondsBefore = TestUtil.getTimeFromDate('2021-07-01 00:00:00')
+            const timerDelay = 1000
+
+            const lastExecution = tickThreeSecondsBefore
+
+            const result = uploadHandler.canExecute(lastExecution)
+            expect(result).toBeTruthy()
+
+        })
+        test.todo('should return false when time isnt later than specified delay')
+
     })
 })

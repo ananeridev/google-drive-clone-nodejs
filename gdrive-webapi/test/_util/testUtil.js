@@ -1,6 +1,10 @@
 import { Readable, Transform, Writable } from 'stream'
 export default class TestUtil {
 
+    static getTimeFromDate(dateString) {
+        return new Date(dateString).getTime()
+    }
+
     // buffer with more chunks
     static generateReadableStream(data) {
         return new Readable({
@@ -25,13 +29,13 @@ export default class TestUtil {
         })
     }
 
-    static generateTransformStream() {
+    static generateTransformStream(onData) {
         return new Transform({
             objectMode: true,
-            transform(chunk, enconding, cd) {
+            transform(chunk, enconding, cb) {
                 // jest function, that each call will be called
                 onData(chunk)
-                cd(null, chunk)
+                cb(null, chunk)
             }
         })
     }
