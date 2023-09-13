@@ -13,27 +13,28 @@ export default class UploadHandler {
     }
 
     canExecute(lastExecution) {
-    //     return (Date.now() - lastExecution) >= 300
-    // }
+
+        // depende da data do sistema operacional, como ira funcionar em outras datas?
+        return (Date.now() - lastExecution) >= this.messageTimeDelay
 
     }
 
-
     handleFileBytes(filename) {
-        this.lasMessageSent = Date.now()
-        let processedAlready = 0
+        this.lastMessageSent = Date.now()
 
-        async function* handleData(source) { 
-            for await(const chunk of source) {
+        async function* handleData(source) {
+            let processedAlready = 0
 
-                // yeild is a generator function that makes the function return a generator asyncrounous function
+            for await (const chunk of source) {
                 yield chunk
-
+                
                 processedAlready += chunk.length
-                if(!this.canExecute(this.lasMessageSent)) { 
+                if (!this.canExecute(this.lastMessageSent)) {
                     continue;
                 }
 
+                this.lastMessageSent = Date.now()
+                
                 this.io.to(this.socketId).emit(this.ON_UPLOAD_EVENT, { processedAlready, filename })
                 logger.info(`File [${filename}] got ${processedAlready} bytes to ${this.socketId}`)
             }

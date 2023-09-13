@@ -46,7 +46,7 @@ describe('#Routes suite test', () => {
             }
             params.request.method = 'inexistent'
             await routes.handler(...params.values())
-            expect(params.response.end).toHaveBeenCalledWith('hey world')
+            expect(params.response.end).toHaveBeenCalledWith('hello world')
         })
 
         test('it should set any request with CORS enabled', async () => {

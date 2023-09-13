@@ -1,5 +1,14 @@
+import { jest } from '@jest/globals'
 import { Readable, Transform, Writable } from 'stream'
 export default class TestUtil {
+
+    static mockDateNow(mockImplementationPeriods) {
+        const now = jest.spyOn(global.Date, global.Date.now.name)
+
+        mockImplementationPeriods.forEach(time => {
+            now.mockReturnValueOnce(time)
+        })
+    }
 
     static getTimeFromDate(dateString) {
         return new Date(dateString).getTime()
