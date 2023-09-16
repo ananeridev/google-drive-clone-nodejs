@@ -38,13 +38,13 @@ describe('#FileHelper', () => {
             process.env.USER = mockUser
             const filename = 'file.png'
 
-            jest.spyOn(fs.promises, 'readdir')
+            jest.spyOn(fs.promises, fs.promises.readdir.name)
                 .mockResolvedValue([filename])
             
-            jest.spyOn(fs.promises, 'stat')
+            jest.spyOn(fs.promises, fs.promises.stat.name)
                 .mockResolvedValue(statMock)
             
-            const result = await FileHelper.getFileStatus("/tmp")
+            const result = await FileHelper.getFilesStatus("/tmp")
 
             const expectedResult = [
                 {

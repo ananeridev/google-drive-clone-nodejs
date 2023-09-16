@@ -62,20 +62,15 @@ describe('#Routes Integration Test', () => {
             }
 
             const routes = new Routes(defaultDownloadsFolder)
-            // simulate websocket connection
             routes.setSocketInstance(ioObj)
             
             const dirBeforeRan = await fs.promises.readdir(defaultDownloadsFolder)
             expect(dirBeforeRan).toEqual([])
-            
             await routes.handler(...defaultParams.values())
-            
             const dirAfterRan = await fs.promises.readdir(defaultDownloadsFolder)
             expect(dirAfterRan).toEqual([filename])
 
-            // it is not passing
             expect(defaultParams.response.writeHead).toHaveBeenCalledWith(200)
-            
             const expectedResult = JSON.stringify({ result: 'Files uploaded with success! ' })
             expect(defaultParams.response.end).toHaveBeenCalledWith(expectedResult)
 
