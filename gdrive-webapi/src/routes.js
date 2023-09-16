@@ -60,6 +60,7 @@ export default class Routes {
     async get(request, response) {
         const files = await this.fileHelper.getFilesStatus(this.downloadsFolder)
 
+        console.log("files: ", files)
         response.writeHead(200)
         response.end(JSON.stringify(files))
     }

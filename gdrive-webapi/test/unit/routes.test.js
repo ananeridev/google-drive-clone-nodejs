@@ -150,7 +150,7 @@ describe('#Routes test suite', () => {
             options.request.method = 'POST'
             options.request.url = '?socketId=10' 
 
-             
+             // intercepta uma função e substitui por outra
             jest.spyOn(
                 UploadHandler.prototype,
                 UploadHandler.prototype.registerEvents.name

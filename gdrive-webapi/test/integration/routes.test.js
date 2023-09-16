@@ -23,6 +23,7 @@ describe('#Routes Integration Test', () => {
     })
 
     afterAll(async () => {
+        // api recente rm
         await fs.promises.rm(defaultDownloadsFolder, { recursive: true })
     })
 
@@ -66,6 +67,7 @@ describe('#Routes Integration Test', () => {
             
             const dirBeforeRan = await fs.promises.readdir(defaultDownloadsFolder)
             expect(dirBeforeRan).toEqual([])
+            
             await routes.handler(...defaultParams.values())
             const dirAfterRan = await fs.promises.readdir(defaultDownloadsFolder)
             expect(dirAfterRan).toEqual([filename])
