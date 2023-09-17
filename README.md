@@ -1,5 +1,8 @@
-# Google-drive-clone-nodejs ]
+# Google-drive-clone-nodejs 
 Project that makes a clone of google drive using nodejs streams and javascript best practices
+
+https://github.com/ananeridev/google-drive-clone-nodejs/assets/42419543/28514895-0430-48b5-976d-a1c2b08464ad
+
 
 ## Checklist Features
 
