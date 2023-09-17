@@ -18,7 +18,7 @@ Project that makes a clone of google drive using nodejs streams and javascript b
     - [x] Must have drag and drop upload function
 
 
-## Challenges for you to extend this project that Im working on :construction:
+## Features that Im working on :construction:
 
 1. *Backend*: Save the file to AWS or any storage service
      - Our project today stores files on disk. the challenge is you via Stream, uploading to some cloud service
